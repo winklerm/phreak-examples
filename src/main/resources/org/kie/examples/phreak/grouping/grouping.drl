@@ -1,9 +1,7 @@
 package org.kie.examples.phreak.grouping
 
 import org.kie.examples.phreak.domain.Account
-import org.kie.examples.phreak.domain.Account.Category
 import org.kie.examples.phreak.domain.Transaction
-import org.kie.examples.phreak.domain.Person
 
 dialect "mvel"
 

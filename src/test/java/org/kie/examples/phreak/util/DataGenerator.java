@@ -17,7 +17,7 @@ public class DataGenerator {
     }
 
     public void insertTestFacts() {
-        final Person person1 = this.insertPerson("Marek");
+        final Person person1 = this.insertPerson("Carl");
         final Person person2 = this.insertPerson("Egon");
         
         this.insertPersonAccounts(person1, person2);

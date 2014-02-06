@@ -13,10 +13,9 @@ agenda-group "gold"
 when
   account: Account()
   Number(this >= 50000) from accumulate(t: Transaction(source == account); sum(t.amount))
-  //Person(this == account.owner, name == "Egon")
   Number(this >= 50000) from accumulate(t: Transaction(target == account); sum(t.amount))
 then
-  System.out.println("Gold account: " + account);
+  //System.out.println("Gold account: " + account);
 end
 
 rule silver_account
@@ -25,10 +24,9 @@ agenda-group "silver"
 when
   account: Account()
   Number(this >= 25000) from accumulate(t: Transaction(source == account); sum(t.amount))
-  //Person(this == account.owner, name == "Egon")
   Number(this >= 25000) from accumulate(t: Transaction(target == account); sum(t.amount))
 then
-  System.out.println("Silver account: " + account);
+  //System.out.println("Silver account: " + account);
 end
 
 rule bronze_account
@@ -37,8 +35,7 @@ agenda-group "bronze"
 when
   account: Account()
   Number(this >= 10000 && this < 25000) from accumulate(t: Transaction(source == account); sum(t.amount))
-  //Person(this == account.owner, name == "Egon")
   Number(this >= 10000 && this < 25000) from accumulate(t: Transaction(target == account); sum(t.amount))
 then
-  System.out.println("Bronze account: " + account);
+  //System.out.println("Bronze account: " + account);
 end

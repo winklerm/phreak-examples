@@ -13,13 +13,12 @@ lock-on-active
 when
   account: Account()
   Number(this >= 50000) from accumulate(t: Transaction(source == account); sum(t.amount))
-  //Person(this == account.owner, name == "Egon")
   Number(this >= 50000) from accumulate(t: Transaction(target == account); sum(t.amount))
 then
   modify (account) {
     setCategory(Category.GOLD)
   }
-  System.out.println("Gold account: " + account);
+  //System.out.println("Gold account: " + account);
 end
 
 rule silver_account
@@ -28,13 +27,12 @@ lock-on-active
 when
   account: Account(category != Category.GOLD)
   Number(this >= 25000) from accumulate(t: Transaction(source == account); sum(t.amount))
-  //Person(this == account.owner, name == "Egon")
   Number(this >= 25000) from accumulate(t: Transaction(target == account); sum(t.amount))
 then
   modify (account) {
     setCategory(Category.SILVER)
   }
-  System.out.println("Silver account: " + account);
+  //System.out.println("Silver account: " + account);
 end
 
 rule bronze_account
@@ -43,11 +41,10 @@ lock-on-active
 when
   account: Account(category != Category.SILVER && category != Category.GOLD)
   Number(this >= 10000) from accumulate(t: Transaction(source == account); sum(t.amount))
-  //Person(this == account.owner, name == "Egon")
   Number(this >= 10000) from accumulate(t: Transaction(target == account); sum(t.amount))
 then
   modify (account) {
     setCategory(Category.BRONZE)
   }
-  System.out.println("Bronze account: " + account);
+  //System.out.println("Bronze account: " + account);
 end

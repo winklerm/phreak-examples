@@ -1,5 +1,9 @@
 target
 
+.classpath
+.settings
+.project
+
 *.log
 
 # Package Files #

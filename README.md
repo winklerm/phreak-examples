@@ -60,11 +60,11 @@ RETE-OO | 52.6
 
 This test is the same as Laziness (3 rules) test, except it uses agenda-group to activate only the first rule. Please note, that the time taken by RETE-OO in all three tests is nearly the same (which indicates that the agenda-group actually did not prevent evaluation of RETE nodes for the rules not enabled by the agenda-group).
 
-Test | RETE-OO | PHREAK | Time (s)
------|---------|--------|---------
-laziness 3 | 52.4 | 1.9 
+Test | RETE-OO time (s) | PHREAK time (s)
+-----|------------------|--------
+laziness 3 | 52.4  | 1.9 
 laziness 6 | 52.2* | 3.1
-grouping   | 52.6 | 1.6
+grouping   | 52.6  | 1.6
 
 * to be investigated
 

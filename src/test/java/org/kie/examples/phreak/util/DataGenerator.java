@@ -6,9 +6,22 @@ import org.kie.examples.phreak.domain.Person;
 import org.kie.examples.phreak.domain.Transaction;
 
 /**
- * Utility class generating test facts.
+ * Utility class generating test facts and inserting them into given KieSession:
+ * <ul>
+ *   <li>2 facts of type Person,</li>
+ *   <li>each having 10 Accounts,</li>
+ *   <li>each Account is associated with a number of Transactions (see below).</li>
+ * </ul>
+ *
+ * The number of transactions associated with each account is specified using
+ * <em>phreak.examples.transactions</em> system property (default 10100).
  */
 public class DataGenerator {
+
+    private static final Long TRANSACTIONS_PER_ACCOUNT =
+            Long.valueOf(System.getProperty("phreak.examples.transactions", "10100"));
+    
+    private static final int ACCOUNTS_PER_PERSON = 10;
 
     private final KieSession ksession;
 
@@ -31,7 +44,7 @@ public class DataGenerator {
     }
     
     private void insertPersonAccounts(final Person owner, final Person partner) {
-        for (long i = 0; i < 10; i++) {
+        for (long i = 0; i < ACCOUNTS_PER_PERSON; i++) {
             this.insertAccount(i, owner, partner);
         }
     }
@@ -43,7 +56,7 @@ public class DataGenerator {
         final Account partnerAccount = new Account(id, partner);
         this.ksession.insert(partnerAccount);
         
-        for (int t = 0; t < 10100; t++) {
+        for (long t = 0; t < TRANSACTIONS_PER_ACCOUNT; t++) {
             final Transaction transaction = new Transaction(account, partnerAccount, 5);
             this.ksession.insert(transaction);
         }

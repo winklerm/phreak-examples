@@ -13,6 +13,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.6</java.version>
     <drools.version>6.0.1.Final</drools.version>
+    <!-- JVM settings for tests -->
+    <surefire.arguments>-server -Xms2048m -Xmx2048m</surefire.arguments>
+    <!-- <surefire.arguments>-server -Xms6144m -Xmx6144m</surefire.arguments> -->
   </properties>
 
   <dependencyManagement>
@@ -94,6 +97,14 @@
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.16</version>
+          <configuration>
+            <argLine>${surefire.arguments}</argLine>
           </configuration>
         </plugin>
       </plugins>

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
 
-  <kbase name="lazinessKBase" packages="org.kie.examples.phreak.laziness">
-    <ksession name="lazinessKSession"/>
+  <kbase name="laziness3KBase" packages="org.kie.examples.phreak.laziness3">
+    <ksession name="laziness3KSession"/>
+  </kbase>
+
+  <kbase name="laziness6KBase" packages="org.kie.examples.phreak.laziness6">
+    <ksession name="laziness6KSession"/>
   </kbase>
 
   <kbase name="groupingKBase" packages="org.kie.examples.phreak.grouping">

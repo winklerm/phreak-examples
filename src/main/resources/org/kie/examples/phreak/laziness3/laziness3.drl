@@ -1,4 +1,4 @@
-package org.kie.examples.phreak.laziness
+package org.kie.examples.phreak.laziness3
 
 import org.kie.examples.phreak.domain.Account
 import org.kie.examples.phreak.domain.Transaction

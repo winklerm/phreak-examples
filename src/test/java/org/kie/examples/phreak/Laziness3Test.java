@@ -9,16 +9,17 @@ import org.kie.api.runtime.KieSession;
 import org.kie.examples.phreak.util.DataGenerator;
 
 /**
- * Illustrates laziness of PHREAK vs. eagerness of RETE-OO on a larger set of facts.
+ * Illustrates laziness of PHREAK vs. eagerness of RETE-OO on a larger set of facts
+ * with 3 rules.
  */
-public class LazinessTest {
+public class Laziness3Test {
 
     private KieSession ksession;
 
     @Before
     public void initSession() {
         final KieContainer kcontainer = KieServices.Factory.get().getKieClasspathContainer();
-        this.ksession = kcontainer.newKieSession("lazinessKSession");
+        this.ksession = kcontainer.newKieSession("laziness3KSession");
     }
 
     @After

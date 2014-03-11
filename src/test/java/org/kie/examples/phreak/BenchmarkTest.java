@@ -22,7 +22,7 @@ public class BenchmarkTest {
     @Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
         final List<Object[]> result = new LinkedList<Object[]>();
-        for (final Benchmark b : Benchmark.values()) {
+        for (final BenchmarkType b : BenchmarkType.values()) {
             result.add(new Object[] { b });
         }
         return result;
@@ -30,10 +30,10 @@ public class BenchmarkTest {
 
     private KieSession ksession;
     private final DataGenerator data;
-    private final Benchmark benchmark;
+    private final BenchmarkType benchmarkType;
 
-    public BenchmarkTest(final Benchmark benchmark) {
-        this.benchmark = benchmark;
+    public BenchmarkTest(final BenchmarkType benchmarkType) {
+        this.benchmarkType = benchmarkType;
         this.data = new DataGenerator(10000);
         this.data.fillWithTestFacts();
     }
@@ -41,7 +41,7 @@ public class BenchmarkTest {
     @Before
     public void initSession() {
         final KieContainer kcontainer = KieServices.Factory.get().getKieClasspathContainer();
-        this.ksession = kcontainer.newKieSession(this.benchmark.getSessionName());
+        this.ksession = kcontainer.newKieBase(this.benchmarkType.getKieBaseName(), null).newKieSession();
     }
 
     @After
@@ -53,7 +53,7 @@ public class BenchmarkTest {
 
     @Test
     public void testGrouping() {
-        this.benchmark.execute(this.data, this.ksession);
+        this.benchmarkType.execute(this.data, this.ksession);
     }
 
 }

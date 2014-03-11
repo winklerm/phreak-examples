@@ -7,6 +7,8 @@ import org.kie.api.runtime.KieSession;
 import org.kie.examples.phreak.domain.Account;
 import org.kie.examples.phreak.domain.Person;
 import org.kie.examples.phreak.domain.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class generating test facts and inserting them into given KieSession:
@@ -21,6 +23,8 @@ import org.kie.examples.phreak.domain.Transaction;
  */
 public class DataGenerator {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataGenerator.class);
+
     private final Long transactionsPerAccount;
 
     private static final int ACCOUNTS_PER_PERSON = 10;
@@ -33,6 +37,7 @@ public class DataGenerator {
         } else {
             this.transactionsPerAccount = transactionsPerAccount;
         }
+        DataGenerator.LOGGER.info("Data generator will use {} transactions per account.", this.transactionsPerAccount);
     }
 
     public DataGenerator() {

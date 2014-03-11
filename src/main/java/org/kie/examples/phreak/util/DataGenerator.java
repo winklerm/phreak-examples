@@ -1,5 +1,8 @@
 package org.kie.examples.phreak.util;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.kie.api.runtime.KieSession;
 import org.kie.examples.phreak.domain.Account;
 import org.kie.examples.phreak.domain.Person;
@@ -22,10 +25,9 @@ public class DataGenerator {
 
     private static final int ACCOUNTS_PER_PERSON = 10;
 
-    private final KieSession ksession;
+    private final List<Object> facts = new LinkedList<Object>();
 
-    public DataGenerator(final KieSession ksession, final long transactionsPerAccount) {
-        this.ksession = ksession;
+    public DataGenerator(final long transactionsPerAccount) {
         if (transactionsPerAccount < 0) {
             this.transactionsPerAccount = Long.valueOf(System.getProperty("phreak.examples.transactions", "10100"));
         } else {
@@ -33,11 +35,11 @@ public class DataGenerator {
         }
     }
 
-    public DataGenerator(final KieSession ksession) {
-        this(ksession, -1);
+    public DataGenerator() {
+        this(-1);
     }
 
-    public void insertTestFacts() {
+    public void fillWithTestFacts() {
         final Person person1 = this.insertPerson("Carl");
         final Person person2 = this.insertPerson("Egon");
 
@@ -47,7 +49,7 @@ public class DataGenerator {
 
     private Person insertPerson(final String name) {
         final Person person = new Person(name);
-        this.ksession.insert(person);
+        this.facts.add(person);
         return person;
     }
 
@@ -59,14 +61,20 @@ public class DataGenerator {
 
     private void insertAccount(final long id, final Person owner, final Person partner) {
         final Account account = new Account(id, owner);
-        this.ksession.insert(account);
+        this.facts.add(account);
 
         final Account partnerAccount = new Account(id, partner);
-        this.ksession.insert(partnerAccount);
+        this.facts.add(partnerAccount);
 
         for (long t = 0; t < this.transactionsPerAccount; t++) {
             final Transaction transaction = new Transaction(account, partnerAccount, 5);
-            this.ksession.insert(transaction);
+            this.facts.add(transaction);
+        }
+    }
+
+    public void insertInto(final KieSession session) {
+        for (final Object o : this.facts) {
+            session.insert(o);
         }
     }
 }

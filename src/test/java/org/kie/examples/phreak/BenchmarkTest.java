@@ -13,6 +13,7 @@ import org.junit.runners.Parameterized.Parameters;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.examples.phreak.util.DataGenerator;
 
 @RunWith(Parameterized.class)
 public class BenchmarkTest {
@@ -28,10 +29,13 @@ public class BenchmarkTest {
     }
 
     private KieSession ksession;
+    private final DataGenerator data;
     private final Benchmark benchmark;
 
     public BenchmarkTest(final Benchmark benchmark) {
         this.benchmark = benchmark;
+        this.data = new DataGenerator(10000);
+        this.data.fillWithTestFacts();
     }
 
     @Before
@@ -49,7 +53,7 @@ public class BenchmarkTest {
 
     @Test
     public void testGrouping() {
-        this.benchmark.execute(this.ksession);
+        this.benchmark.execute(this.data, this.ksession);
     }
 
 }

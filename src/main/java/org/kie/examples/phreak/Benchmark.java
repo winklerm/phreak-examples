@@ -7,8 +7,8 @@ public enum Benchmark {
 
     GROUPING("groupingKSession") {
         @Override
-        public void execute(final KieSession ksession) {
-            new DataGenerator(ksession).insertTestFacts();
+        public void execute(final DataGenerator data, final KieSession ksession) {
+            data.insertInto(ksession);
             ksession.getAgenda().getAgendaGroup("gold").setFocus();
             ksession.fireAllRules();
         }
@@ -21,8 +21,8 @@ public enum Benchmark {
         this.sessionName = sessionName;
     }
 
-    public void execute(final KieSession ksession) {
-        new DataGenerator(ksession).insertTestFacts();
+    public void execute(final DataGenerator data, final KieSession ksession) {
+        data.insertInto(ksession);
         ksession.fireAllRules();
     }
 

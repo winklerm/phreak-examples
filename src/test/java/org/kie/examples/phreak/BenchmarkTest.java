@@ -10,8 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.examples.phreak.util.DataGenerator;
 
@@ -40,8 +38,7 @@ public class BenchmarkTest {
 
     @Before
     public void initSession() {
-        final KieContainer kcontainer = KieServices.Factory.get().getKieClasspathContainer();
-        this.ksession = kcontainer.newKieBase(this.benchmarkType.getKieBaseName(), null).newKieSession();
+        this.ksession = this.benchmarkType.getPhreakKieBase().newKieSession();
     }
 
     @After

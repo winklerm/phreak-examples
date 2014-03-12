@@ -2,12 +2,9 @@ package org.kie.examples.phreak;
 
 import java.util.concurrent.TimeUnit;
 
-import org.kie.api.KieBaseConfiguration;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.KieContainer;
+import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
 import org.kie.examples.phreak.util.DataGenerator;
-import org.kie.internal.builder.conf.RuleEngineOption;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.GenerateMicroBenchmark;
@@ -31,30 +28,24 @@ public class Benchmark {
     @Param({ "phreak", "reteoo" })
     private String ruleEngine;
 
-    private final KieContainer kcontainer = KieServices.Factory.get().getKieClasspathContainer();
-    private KieBaseConfiguration kconfig;
     private DataGenerator generator;
 
     @Setup
     public void prepare() {
         this.generator = new DataGenerator(this.numOfTransactions);
-        this.kconfig = KieServices.Factory.get().newKieBaseConfiguration();
-        if (this.ruleEngine.equals("phreak")) {
-            this.kconfig.setOption(RuleEngineOption.PHREAK);
-        } else {
-            this.kconfig.setOption(RuleEngineOption.RETEOO);
-        }
     }
 
     @TearDown
     public void finish() {
-        // nothing to do
+        this.generator = null;
     }
 
     private void benchmark(final BenchmarkType type) {
-        final KieSession ksession = this.kcontainer.newKieBase(type.getKieBaseName(), this.kconfig).newKieSession();
-        type.execute(this.generator, ksession);
-        ksession.dispose();
+        final KieBase base = this.ruleEngine.equals("phreak") ? type.getPhreakKieBase() : type.getReteOOKieBase();
+        final KieSession session = base.newKieSession();
+        type.execute(this.generator, session);
+        session.dispose();
+
     }
 
     @GenerateMicroBenchmark

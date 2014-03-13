@@ -19,10 +19,10 @@ import org.openjdk.jmh.annotations.TearDown;
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @Fork(jvmArgsAppend = { "-server", "-Xmx2048m", "-Xms2048m" })
-@OutputTimeUnit(TimeUnit.MICROSECONDS)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class Benchmark {
 
-    @Param({ "10000" })
+    @Param({ "10", "100", "1000" })
     private long numOfTransactions;
 
     @Param({ "phreak", "reteoo" })
@@ -33,6 +33,7 @@ public class Benchmark {
     @Setup
     public void prepare() {
         this.generator = new DataGenerator(this.numOfTransactions);
+        this.generator.fillWithTestFacts();
     }
 
     @TearDown

@@ -8,6 +8,7 @@ import org.kie.examples.phreak.util.DataGenerator;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.GenerateMicroBenchmark;
+import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Param;
@@ -29,6 +30,7 @@ public class Benchmark {
     private String ruleEngine;
 
     private DataGenerator generator;
+    private KieSession session;
 
     @Setup
     public void prepare() {
@@ -38,15 +40,21 @@ public class Benchmark {
 
     @TearDown
     public void finish() {
-        this.generator = null;
+        System.gc(); // just to be sure
     }
 
-    private void benchmark(final BenchmarkType type) {
-        final KieBase base = this.ruleEngine.equals("phreak") ? type.getPhreakKieBase() : type.getReteOOKieBase();
-        final KieSession session = base.newKieSession();
-        type.execute(this.generator, session);
-        session.dispose();
+    @TearDown(Level.Invocation)
+    public void disposeSession() {
+        this.session.dispose();
+        System.gc(); // just to be sure
+    }
 
+    // return just so that the method isn't eliminated by the JVM as dead code
+    private boolean benchmark(final BenchmarkType type) {
+        final KieBase base = this.ruleEngine.equals("phreak") ? type.getPhreakKieBase() : type.getReteOOKieBase();
+        this.session = base.newKieSession();
+        type.execute(this.generator, this.session);
+        return true;
     }
 
     @GenerateMicroBenchmark

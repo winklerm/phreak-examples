@@ -7,6 +7,11 @@ import java.io.Serializable;
  */
 public class Account implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5981531505489463802L;
+
     private final long id;
 
     private final Person owner;
@@ -27,7 +32,7 @@ public class Account implements Serializable {
     public int getBalance() {
         return this.balance;
     }
-    
+
     public void setBalance(final int balance) {
         this.balance = balance;
     }
@@ -42,23 +47,23 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Account id=%d, owner=%s, balance:=%d", id, owner.getName(), balance);
+        return String.format("Account id=%d, owner=%s, balance:=%d", this.id, this.owner.getName(), this.balance);
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 29 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 29 * hash + this.owner.hashCode();
+        hash = (29 * hash) + (int) (this.id ^ (this.id >>> 32));
+        hash = (29 * hash) + this.owner.hashCode();
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (this.getClass() != obj.getClass()) {
             return false;
         }
         final Account other = (Account) obj;
@@ -75,9 +80,6 @@ public class Account implements Serializable {
      * The account category.
      */
     public enum Category {
-        REGULAR,
-        BRONZE,
-        SILVER,
-        GOLD
+        REGULAR, BRONZE, SILVER, GOLD
     }
 }

@@ -43,7 +43,7 @@ public class BenchmarkTest {
     public BenchmarkTest(final BenchmarkType benchmarkType, final Engine engine) {
         this.benchmarkType = benchmarkType;
         this.engine = engine;
-        this.data = new DataGenerator(10000);
+        this.data = new DataGenerator(1000);
         this.data.fillWithTestFacts();
     }
 

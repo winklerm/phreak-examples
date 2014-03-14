@@ -7,6 +7,10 @@ import java.io.Serializable;
  */
 public class Person implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5249249840244756199L;
     private String name;
 
     public Person(final String name) {
@@ -24,16 +28,16 @@ public class Person implements Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 17 * hash + (this.name != null ? this.name.hashCode() : 0);
+        hash = (17 * hash) + (this.name != null ? this.name.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (this.getClass() != obj.getClass()) {
             return false;
         }
         final Person other = (Person) obj;
@@ -42,5 +46,5 @@ public class Person implements Serializable {
         }
         return true;
     }
-    
+
 }

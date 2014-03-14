@@ -3,9 +3,15 @@ package org.kie.examples.phreak.domain;
 import java.io.Serializable;
 
 /**
- * A transaction representing transfer from <em>source</em> account to <em>target</em> account.
+ * A transaction representing transfer from <em>source</em> account to
+ * <em>target</em> account.
  */
 public class Transaction implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5235880904355609967L;
 
     private final Account source;
 
@@ -14,7 +20,7 @@ public class Transaction implements Serializable {
     private final long amount;
 
     public Transaction(final Account source, final Account target, final long amount) {
-        if (source == null || target == null) {
+        if ((source == null) || (target == null)) {
             throw new IllegalArgumentException("source and target accounts must not be null");
         }
 

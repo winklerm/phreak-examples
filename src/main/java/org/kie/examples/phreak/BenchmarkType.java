@@ -40,12 +40,12 @@ public enum BenchmarkType {
         ksession.fireAllRules();
     }
 
-    public KieBase getPhreakKieBase() {
-        return this.PHREAK_BASE;
+    public KieSession getPhreakKieSession() {
+        return this.PHREAK_BASE.newKieSession();
     }
 
-    public KieBase getReteOOKieBase() {
-        return this.RETEOO_BASE;
+    public KieSession getReteOOKieSession() {
+        return this.RETEOO_BASE.newKieSession();
     }
 
 }

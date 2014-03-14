@@ -10,24 +10,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
 import org.kie.examples.phreak.util.DataGenerator;
 
 @RunWith(Parameterized.class)
 public class BenchmarkTest {
-    
+
     private enum Engine {
-        
+
         PHREAK, RETEOO;
-        
+
     }
 
     // will verify various configs of log watch
     @Parameters(name = "{index}: {0} with {1}")
     public static Collection<Object[]> data() {
         final List<Object[]> result = new LinkedList<Object[]>();
-        for (Engine e: Engine.values()) {
+        for (final Engine e : Engine.values()) {
             for (final BenchmarkType b : BenchmarkType.values()) {
                 result.add(new Object[] { b, e });
             }
@@ -35,7 +34,7 @@ public class BenchmarkTest {
         return result;
     }
 
-    private Engine engine;
+    private final Engine engine;
     private KieSession ksession;
     private final DataGenerator data;
     private final BenchmarkType benchmarkType;
@@ -49,8 +48,8 @@ public class BenchmarkTest {
 
     @Before
     public void initSession() {
-        KieBase base = (engine == Engine.PHREAK) ? this.benchmarkType.getPhreakKieBase() : this.benchmarkType.getReteOOKieBase();
-        this.ksession = base.newKieSession();
+        this.ksession = (this.engine == Engine.PHREAK) ? this.benchmarkType.getPhreakKieSession() : this.benchmarkType
+                .getReteOOKieSession();
     }
 
     @After

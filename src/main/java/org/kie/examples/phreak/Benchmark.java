@@ -2,7 +2,6 @@ package org.kie.examples.phreak;
 
 import java.util.concurrent.TimeUnit;
 
-import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
 import org.kie.examples.phreak.util.DataGenerator;
 import org.openjdk.jmh.annotations.BenchmarkMode;
@@ -45,35 +44,36 @@ public class Benchmark {
 
     @TearDown(Level.Invocation)
     public void disposeSession() {
-        this.session.dispose();
+        if (this.session != null) {
+            this.session.dispose();
+        }
         System.gc(); // just to be sure
     }
 
     // return just so that the method isn't eliminated by the JVM as dead code
     private boolean benchmark(final BenchmarkType type) {
-        final KieBase base = this.ruleEngine.equals("phreak") ? type.getPhreakKieBase() : type.getReteOOKieBase();
-        this.session = base.newKieSession();
+        this.session = this.ruleEngine.equals("phreak") ? type.getPhreakKieSession() : type.getReteOOKieSession();
         type.execute(this.generator, this.session);
         return true;
     }
 
     @GenerateMicroBenchmark
-    public void modification() {
-        this.benchmark(BenchmarkType.MODIFICATION);
+    public boolean modification() {
+        return this.benchmark(BenchmarkType.MODIFICATION);
     }
 
     @GenerateMicroBenchmark
-    public void grouping() {
-        this.benchmark(BenchmarkType.GROUPING);
+    public boolean grouping() {
+        return this.benchmark(BenchmarkType.GROUPING);
     }
 
     @GenerateMicroBenchmark
-    public void laziness3() {
-        this.benchmark(BenchmarkType.LAZINESS3);
+    public boolean laziness3() {
+        return this.benchmark(BenchmarkType.LAZINESS3);
     }
 
     @GenerateMicroBenchmark
-    public void laziness6() {
-        this.benchmark(BenchmarkType.LAZINESS6);
+    public boolean laziness6() {
+        return this.benchmark(BenchmarkType.LAZINESS6);
     }
 }
